@@ -10,5 +10,5 @@ setuptools.setup(
     url='https://github.com/Elliot-Wadge/Mink',
     license='MIT',
     packages=['Mink'],
-    install_requires=['numpy','plotly','scipy'],
+    install_requires=['numpy', 'plotly', 'scipy'],
 )
