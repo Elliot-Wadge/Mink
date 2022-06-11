@@ -4,7 +4,7 @@ import pandas as pd
 
 def local_max(arr, N=2, strict=False):
     '''find local maximums of an array where local is defined as M points on
-    either side, if strict is truethen it will follow this process exactly if
+    either side, if strict is true then it will follow this process exactly if
     strict is false it will also count local maxes that are at least
     one space from the edge if they satisfy the requirement within the
     remaining array'''
