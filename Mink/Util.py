@@ -36,7 +36,7 @@ def local_max(arr, N=2, strict=False):
                     # reproduce old behaviour
                     local_max = False
                     break
-                # other wise search in the other direction
+                # otherwise search in the other direction
             try:
                 if arr[i] < arr[i - j]:
                     local_max = False
