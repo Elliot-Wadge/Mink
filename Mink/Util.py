@@ -109,16 +109,10 @@ def error_prop(f, args, errors, ind_var=[None], **kwargs):
 
 
 def csv_to_df(files, *args, **kwargs):
-
-    iterable = True
-    try:
-        iter(files)
-
-    except TypeError:
-        iterable = False
-
+    '''function to load multiple csv files into a dataframe'''
+    iterable = hasattr(files, "__iter__")
     df_lst = []
-    if iterable:
+    if iterable and not isinstance(files, str):
         for file in files:
             df_lst.append(pd.read_csv(file, *args, **kwargs))
         df = pd.concat(df_lst)

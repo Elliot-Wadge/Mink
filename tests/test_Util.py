@@ -8,8 +8,8 @@ def test_lm_sin():
     x = np.arange(0, 5.25, 0.25)*np.pi
     y = np.sin(x)
     maxes, index = local_max(y, N=10)
-    assert maxes == [1, 1, 1]
-    assert index == [2, 10, 18]
+    assert list(maxes) == [1, 1, 1]
+    assert list(index) == [2, 10, 18]
 
 
 def test_lm_lin():
@@ -24,22 +24,23 @@ def test_lm_lin():
 def test_lm_max():
     '''test the local max behaves properly when searching for the largest local
     max across the whole array'''
-    x = np.linspace(0, np.pi, 50)
+    x = np.linspace(0, np.pi, 51)
     y = np.sin(x)
     maxes, index = local_max(y, N=len(y))
-    assert maxes == [1.]
-    assert index == [25]
+    assert list(maxes) == [1.]
+    assert list(index) == [25]
 
 
 def test_dtc_multiple():
     '''test that csv_to_df can load multiple files properly'''
-    df = csv_to_df(["dataframes/df1.csv", "dataframes/df2.csv"], comment="#")
+    df = csv_to_df(["Mink/example_dataframes/df1.csv",
+                   "Mink/example_dataframes/df2.csv"], comment="#")
     assert len(df) == 5
     assert len(df.columns) == 2
 
 
 def test_dtc_single():
     '''test that csv_to_df can load a single file'''
-    df = csv_to_df("dataframes/df2.csv", comment="#")
+    df = csv_to_df("Mink/example_dataframes/df2.csv", comment="#")
     assert len(df) == 3
     assert len(df.columns) == 2
