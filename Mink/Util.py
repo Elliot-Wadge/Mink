@@ -119,3 +119,29 @@ def csv_to_df(files, *args, **kwargs):
     else:
         df = pd.read_csv(files, *args, **kwargs)
     return df
+
+
+def gaussian(x, a, b, c):
+    '''plain gaussian'''
+    return a*np.exp(-(x-b)**2/(2*c**2))
+
+
+def lin_gaussian(x, a, b, c, d, e):
+    '''gaussian function with linear background'''
+    return a*np.exp(-(x-b)**2/(2*c**2))+d*x+e
+
+
+def n_gaussian(x, *args, poly=0):
+    '''gaussian with n peaks specified using a1,b1,c1,a2,b2,c2... poly=n specifies
+    the order of polynomial to add as background, the coefficients should be
+    entered in ascending order after the gaussian arguments, if poly=1 then
+    there should be a constant and a slope at the end of args, benefit of this
+    design is that it is compatable with curve_fit, and backgrounds can be
+    easily included in fit with use of lambda function'''
+    poly_args = args[-(poly+1):]
+    gaussian_args = args[poly+1:]
+    poly = np.polynomial.Polynomial(poly_args)
+    ret = poly(x)
+    for i in range(len(gaussian_args)//3):
+        ret += gaussian(x, *args[3*i:3*(i+1)])
+    return ret
