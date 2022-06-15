@@ -1,7 +1,7 @@
 week of June 12.
 
 add harder tests for peak fitter
-add tests for merge delimiter
+~~add tests for merge delimiter~~
 add more stuff for plotly templates
 update version and start using
 upload to pypi
