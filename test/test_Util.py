@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
-from Mink.Util import local_max, csv_to_df
+from Mink.Util import local_max, csv_to_df, merge_delimiter
+import filecmp
 
 
 class TestLocalMax(unittest.TestCase):
@@ -43,6 +44,16 @@ class TestCsvToDf(unittest.TestCase):
         df = csv_to_df("Mink/example_dataframes/df2.csv", comment="#")
         self.assertEqual(len(df), 3)
         self.assertEqual(len(df.columns), 2)
+
+
+class testMergeDelimiter(unittest.TestCase):
+    def test(self):
+        '''test that delimiters have been merged correctly'''
+        infile = "Mink/example_dataframes/MessedUpDelimiter.csv"
+        outfile = "Mink/example_dataframes/FixedDelimiter.csv"
+        answerfile = "Mink/example_dataframes/CorrectDelimiter.csv"
+        merge_delimiter(infile, outfile)
+        self.assertTrue(filecmp.cmp(answerfile, outfile, shallow=False))
 
 
 if __name__ == '__main__':

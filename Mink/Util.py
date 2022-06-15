@@ -145,3 +145,32 @@ def n_gaussian(x, *args, poly=0):
     for i in range(len(gaussian_args)//3):
         ret += gaussian(x, *args[3*i:3*(i+1)])
     return ret
+
+
+def merge_delimiter(filename1: str, filename2: str, delimiter: str = ' ',
+                    remove=None, new_delimiter=','):
+    new_row = ''
+    # open two files the one to read from filename1 and the new filename2
+    with open(filename2, 'w') as f2:
+        with open(filename1, 'r') as f1:
+            # parse through the rows
+            rows = f1.readlines()
+
+            for number, row in enumerate(rows):
+                start = False
+                # start_of_row = True
+                for i in range(0, len(row)):
+                    # don't keep delimiters at the start of a row
+                    if start or row[i] != delimiter:
+                        start = True
+                    # this is equivalent to saying if it's a delimeter and a
+                    # repeat don't include (just invert logic)
+                    if (row[i] != delimiter or row[i] != row[i+1]) and start:
+                        if row[i] == delimiter and row[i+1] == "\n":
+                            continue
+                        new_row += row[i]
+
+            # replace the delimiter with new delimiter
+            new_row = new_row.replace(delimiter, new_delimiter)
+            # write to the output file
+            f2.write(new_row)
