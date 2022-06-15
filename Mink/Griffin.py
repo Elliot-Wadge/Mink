@@ -2,6 +2,7 @@ import numpy as np
 from Mink.Util import local_max, lin_gaussian
 from dataclasses import dataclass
 from scipy.optimize import curve_fit
+from scipy.special import SpecialFunctionError
 
 
 @dataclass
@@ -15,8 +16,8 @@ class Fit:
 def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
                 charge_window=10, **kwargs):
     '''performs fit across the specified peaks in the contained in the Files
-    specified. LitEnFiles should have a header of one and use ',' as a delimiter.
-    The charge and spectra should be given.
+    specified. LitEnFiles should have a header of one and use ',' as a
+    delimiter. The charge and spectra should be given.
     rough coeff should be given as a tuple of polynomial coefficients in
     order of smallest order coeff to largest order coeff. The smallest acceptable
     peak can be set with cut_off, and the range of the fit is set with charge_window'''
@@ -63,7 +64,7 @@ def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
                 out = curve_fit(lin_gaussian, bin_slice, spectra_slice,
                                 p0=p0,
                                 full_output=True, **kwargs)
-            except:
+            except SpecialFunctionError:
                 print(f"error fitting lit. energy peak {peak}")
                 continue
             # fit parameters
