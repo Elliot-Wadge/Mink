@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import sys
 
 
 def local_max(arr, N=2, strict=False):
@@ -77,25 +78,21 @@ def noise(func, sigma=0):
 
 def error_prop(f, args, errors, ind_var=[None], **kwargs):
     '''take function f, args, and errors in args and propegate the error using the
-        method of calculus'''
+        method of calculus. Honestly not sure how much I trust this function. It
+        works on simple functions at least'''
     errors = np.array(errors)
     # array for storing derivatives
     d_arr = np.ones(len(args))
     prop_arr = []
     for x in ind_var:
         for i, arg in enumerate(args):
-            # these are the smallest ratios that still improve in estimate
-            lower_ratio = 0.99999999999
-            upper_ratio = 1.00000000001
+            # this seems to be the sweet spot that works well
+            diff = 1e-9
             # take a linspace of area surrounding
-            if arg != 0:
-                arg_space = np.linspace(lower_ratio*abs(arg),
-                                        upper_ratio*abs(arg), 2)
-                # reintroduce negative if it was removed
-                arg_space *= abs(arg)/arg
-            else:
-                arg_space = np.linspace(lower_ratio - 1, upper_ratio - 1, 2)
 
+            arg_space = np.linspace(arg-diff, arg+diff, 2)
+            # reintroduce negative if it was removed
+            arg_space *= abs(arg)/arg
             # call the function with x inserted in correct position
             if x is None:
                 y = f(*args[:i], arg_space, *args[i+1:], **kwargs)
@@ -148,7 +145,7 @@ def n_gaussian(x, *args, poly=0):
 
 
 def merge_delimiter(filename1: str, filename2: str, delimiter: str = ' ',
-                    remove=None, new_delimiter=','):
+                    new_delimiter=','):
     new_row = ''
     # open two files the one to read from filename1 and the new filename2
     with open(filename2, 'w') as f2:

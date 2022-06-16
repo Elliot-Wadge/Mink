@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from Mink.Util import local_max, csv_to_df, merge_delimiter
+from Mink.Util import local_max, csv_to_df, merge_delimiter, error_prop
 import filecmp
 
 
@@ -46,7 +46,7 @@ class TestCsvToDf(unittest.TestCase):
         self.assertEqual(len(df.columns), 2)
 
 
-class testMergeDelimiter(unittest.TestCase):
+class TestMergeDelimiter(unittest.TestCase):
     def test(self):
         '''test that delimiters have been merged correctly'''
         infile = "Mink/example_dataframes/MessedUpDelimiter.csv"
@@ -54,6 +54,49 @@ class testMergeDelimiter(unittest.TestCase):
         answerfile = "Mink/example_dataframes/CorrectDelimiter.csv"
         merge_delimiter(infile, outfile)
         self.assertTrue(filecmp.cmp(answerfile, outfile, shallow=False))
+
+
+class TestErrorPropagation(unittest.TestCase):
+    def test_ln(self):
+        '''test that function properly propegates ln error'''
+        args = [2]
+        error_args = [2]
+        prop = error_prop(np.log, args, error_args)
+        self.assertLess(abs(1-prop[0]), 0.01)
+
+    def test_ln_large(self):
+        '''test that function works for large numbers'''
+        args = [5e6]
+        error_args = [1000]
+        prop = error_prop(np.log, args, error_args)
+        self.assertLess(abs(1000/5e6-prop[0]), 0.01)
+
+    def test_ln_a(self):
+        '''test proper propegation on slightly more complicated function'''
+        def f(x, a):
+            return a*np.log(x)
+        args = [2, 1]
+        error_args = [2, 1]
+        prop = error_prop(f, args, error_args)
+        calculated = np.sqrt(np.log(2)**2+1)
+        self.assertLess(abs(calculated-prop[0]), 0.01)
+
+    def test_independent_variable(self):
+        "test error propegation on an array of independ variable x"
+        x = np.array([1, 2, 3])
+        a = 2
+        error_a = 1
+
+        def f(x, a):
+            return a*np.log(x)
+
+        prop = error_prop(f, [a], [error_a], ind_var=x)
+        calculate = np.log(x)*error_a
+        for i in range(len(x)):
+            calc = calculate[i]
+            p = prop[i]
+            message = f"{calc} - {p} = {abs(calc-p)} not less than 0.01"
+            self.assertLess(abs(calc-p), 0.01, message)
 
 
 if __name__ == '__main__':
