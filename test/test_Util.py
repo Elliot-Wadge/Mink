@@ -57,19 +57,21 @@ class TestMergeDelimiter(unittest.TestCase):
 
 
 class TestErrorPropagation(unittest.TestCase):
+    precision: float = 0.001
+
     def test_ln(self):
         '''test that function properly propegates ln error'''
         args = [2]
         error_args = [2]
         prop = error_prop(np.log, args, error_args)
-        self.assertLess(abs(1-prop[0]), 0.01)
+        self.assertLess(abs(1-prop[0]), self.precision)
 
     def test_ln_large(self):
         '''test that function works for large numbers'''
         args = [5e6]
         error_args = [1000]
         prop = error_prop(np.log, args, error_args)
-        self.assertLess(abs(1000/5e6-prop[0]), 0.01)
+        self.assertLess(abs(1000/5e6-prop[0]), self.precision)
 
     def test_ln_a(self):
         '''test proper propegation on slightly more complicated function'''
@@ -79,7 +81,7 @@ class TestErrorPropagation(unittest.TestCase):
         error_args = [2, 1]
         prop = error_prop(f, args, error_args)
         calculated = np.sqrt(np.log(2)**2+1)
-        self.assertLess(abs(calculated-prop[0]), 0.01)
+        self.assertLess(abs(calculated-prop[0]), self.precision)
 
     def test_independent_variable(self):
         "test error propegation on an array of independ variable x"
@@ -96,7 +98,7 @@ class TestErrorPropagation(unittest.TestCase):
             calc = calculate[i]
             p = prop[i]
             message = f"{calc} - {p} = {abs(calc-p)} not less than 0.01"
-            self.assertLess(abs(calc-p), 0.01, message)
+            self.assertLess(abs(calc-p), self.precision, message)
 
 
 if __name__ == '__main__':
