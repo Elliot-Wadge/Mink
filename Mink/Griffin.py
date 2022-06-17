@@ -14,7 +14,7 @@ class Fit:
 
 
 def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
-                charge_window=10, **kwargs):
+                charge_window=10, full=False, **kwargs):
     '''performs fit across the specified peaks in the contained in the Files
     specified. LitEnFiles should have a header of one and use ',' as a
     delimiter. The charge and spectra should be given.
@@ -64,8 +64,9 @@ def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
                 out = curve_fit(lin_gaussian, bin_slice, spectra_slice,
                                 p0=p0,
                                 full_output=True, **kwargs)
-            except SpecialFunctionError:
-                print(f"error fitting lit. energy peak {peak}")
+            except (SpecialFunctionError, RuntimeError):
+                if full:
+                    print(f"error fitting lit. energy peak {peak}")
                 continue
             # fit parameters
             pOpt = out[0]

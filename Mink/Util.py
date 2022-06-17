@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import sys
 
 
 def local_max(arr, N=2, strict=False):
