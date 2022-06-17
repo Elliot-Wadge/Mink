@@ -24,42 +24,40 @@ class TestFitter(unittest.TestCase):
 
     def test_hard(self):
         '''test peak fitter on large array of peaks'''
-        peaks = np.genfromtxt("Mink/example_GriffinData/allGamma.csv",
+        peaks = np.genfromtxt("Mink/example_GriffinData/hardtestpeaks.dat",
                               delimiter=',', usecols=0)
         x, y = np.genfromtxt("Mink/example_GriffinData/hard_test.dat",
                              delimiter=' ', unpack=True)
-        print(len(x))
-        res, fits = PerformFits(["Mink/example_GriffinData/allGamma.csv"], x,
-                                y, (0, 1), cut_off=3, charge_window=10)
-        message = "missed too many peaks (%40)"
-        self.assertGreater(len(fits), len(peaks)*3/5, message)
+        res, fits = PerformFits(["Mink/example_GriffinData/hardtestpeaks.dat"],
+                                x, y, (0, 1), cut_off=3, charge_window=10)
+
         missed = 0
 
         for fit in fits:
             result = False
-            for peak in peaks:
+            for i, peak in enumerate(peaks):
                 if abs(fit.pOpt[1]-peak) < 1:
                     result = True
+                    peaks = np.delete(peaks, i)  # should not fit peaks twice
                     break
 
             if not result:
                 message = f"PoorFit: incorrectly fit a peak {fit.pOpt[1]}"
                 warnings.warn(message)
                 missed += 1
-        self.assertLess(missed, 6)
+        self.assertLess(missed, 5)
 
     @unittest.expectedFailure
     def test_impossible(self):
         '''more strict version of test above'''
-        peaks = np.genfromtxt("Mink/example_GriffinData/allGamma.csv",
+        peaks = np.genfromtxt("Mink/example_GriffinData/hardtestpeaks.dat",
                               delimiter=',',
                               unpack=True)
         x, y = np.genfromtxt("Mink/example_GriffinData/hard_test.dat",
                              delimiter=' ', unpack=True)
-        res, fits = PerformFits(["Mink/example_GriffinData/allGamma.csv"], x,
-                                y, (0, 1), cut_off=3, charge_window=10)
-        message = "missed too many peaks (%10): don't worry about this test"
-        self.assertGreater(len(fits), len(peaks)*9/10, message)
+        res, fits = PerformFits(["Mink/example_GriffinData/hardtestpeaks.dat"],
+                                x, y, (0, 1), cut_off=3, charge_window=10)
+
         for fit in fits:
             result = False
             for peak in peaks:
