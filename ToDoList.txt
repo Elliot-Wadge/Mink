@@ -3,7 +3,15 @@ week of June 12.
 ~~add harder tests for peak fitter~~
 ~~add tests for merge delimiter~~
 add more stuff for plotly templates
-update version and start using
+~~update version and start using~~
 ~~change the ratio to addition in error propagation~~
 ~~add tests for the error propagation function~~
 upload to PyPi
+
+summary:
+  decided to hold off on PyPi for now
+
+week of June 19.
+
+Look into add SPIN algorithm to the PeakFitter
+jupyter notebook test environment here
