@@ -1,9 +1,6 @@
 week of June 12.
 
 ~~add harder tests for peak fitter~~
-Using actual gamma data from griffin right now I need to think about non-disclosure
-I think if i shift and multiply by some efficiency curve it'll be fine
-Otherwise happy with the testing 
 ~~add tests for merge delimiter~~
 add more stuff for plotly templates
 update version and start using

@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 from Mink.Griffin import PerformFits
 from Mink.Util import n_gaussian
+import plotly.graph_objects as go
 import warnings
 
 
@@ -46,6 +47,14 @@ class TestFitter(unittest.TestCase):
                 warnings.warn(message)
                 missed += 1
         self.assertLess(missed, 5)
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y, mode="lines"))
+        fig.update_layout(template="simple_white")
+        for fit in fits:
+            fig.add_trace(go.Scatter(x=fit.charge,
+                                     y=fit.f(fit.charge, *fit.pOpt),
+                                     mode="lines", line=dict(color='red')))
+        fig.show()
 
     @unittest.expectedFailure
     def test_impossible(self):
@@ -56,7 +65,7 @@ class TestFitter(unittest.TestCase):
         x, y = np.genfromtxt("Mink/example_GriffinData/hard_test.dat",
                              delimiter=' ', unpack=True)
         res, fits = PerformFits(["Mink/example_GriffinData/hardtestpeaks.dat"],
-                                x, y, (0, 1), cut_off=3, charge_window=10)
+                                x, y, (0, 1), cut_off=3, charge_window=12)
 
         for fit in fits:
             result = False

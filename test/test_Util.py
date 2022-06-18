@@ -97,7 +97,7 @@ class TestErrorPropagation(unittest.TestCase):
         for i in range(len(x)):
             calc = calculate[i]
             p = prop[i]
-            message = f"{calc} - {p} = {abs(calc-p)} not less than 0.01"
+            message = f"{calc} - {p} = {abs(calc-p)} not less than {self.precision}"
             self.assertLess(abs(calc-p), self.precision, message)
 
 
