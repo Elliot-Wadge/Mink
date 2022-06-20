@@ -61,8 +61,11 @@ def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
             p0 = [maxes[0]-avg, bin_slice[indexes[0]], 2, 0, avg]
             # fit
             try:
+                sigma=np.nan_to_num(np.sqrt(spectra_slice),nan=1)
                 out = curve_fit(lin_gaussian, bin_slice, spectra_slice,
                                 p0=p0,
+                                sigma=sigma,
+                                absolute_sigma=True,
                                 full_output=True, **kwargs)
             except (SpecialFunctionError, RuntimeError):
                 if full:
