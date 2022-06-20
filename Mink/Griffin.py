@@ -77,3 +77,17 @@ def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
                 results.append((peak, pOpt[1]))
                 fits.append(Fit(bin_slice, spectra_slice, pOpt, lin_gaussian))
     return np.array(results), fits
+
+
+def SPIN(array, iterations):
+    '''estimates the background of gamma spectrum'''
+    v = np.log(np.log(np.sqrt(array+1)+1)+1)
+    next_v = np.ones(len(v))
+
+    for M in range(iterations):
+        for i in range(iterations, len(v)-iterations):
+            next_v[i] = min(v[i], (v[i-M]+v[i+M])/2)
+        v = next_v[:]
+
+    Background = (np.exp(np.exp(v)-1)-1)**2-1
+    return Background
