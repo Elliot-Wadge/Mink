@@ -1,5 +1,5 @@
 import numpy as np
-from Mink.Util import local_max, lin_gaussian
+from Mink.util import local_max, lin_gaussian
 from dataclasses import dataclass
 from scipy.optimize import curve_fit
 from scipy.special import SpecialFunctionError
