@@ -1,1 +1,1 @@
-from .Util import local_max
+from .util import local_max
