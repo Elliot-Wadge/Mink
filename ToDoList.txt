@@ -13,5 +13,6 @@ summary:
 
 week of June 19.
 
-Look into add SPIN algorithm to the PeakFitter
+~~Look into add SPIN algorithm to the PeakFitter~~
+wrote SPIN algorithm but unsure if it's worth adding
 jupyter notebook test environment here
