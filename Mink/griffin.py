@@ -95,3 +95,12 @@ def SNIP(array, iterations):
 
     Background = (np.exp(np.exp(v)-1)-1)**2-1
     return Background
+
+
+# function for fitting efficiency curve
+def eff_curve(energy, *pars):
+    power = 0
+    for n, par in enumerate(pars):
+        power += par*np.log(energy/350)**n
+    f = np.exp(power)
+    return f
