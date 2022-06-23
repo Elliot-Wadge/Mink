@@ -90,6 +90,7 @@ def SNIP(array, iterations):
     for M in range(iterations):
         for i in range(M, len(v)-M):
             next_v[i] = min(v[i], (v[i-M]+v[i+M])/2)
+        # update only the ones that have chagned
         v[M:len(v)-M] = next_v[M:len(v)-M]
 
     Background = (np.exp(np.exp(v)-1)-1)**2-1

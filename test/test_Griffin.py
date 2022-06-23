@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-from Mink.Griffin import PerformFits
-from Mink.Util import n_gaussian
+from Mink.griffin import PerformFits
+from Mink.util import n_gaussian
 import plotly.graph_objects as go
 import warnings
 

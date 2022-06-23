@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from Mink.Util import local_max, csv_to_df, merge_delimiter, error_prop
+from Mink.util import local_max, csv_to_df, merge_delimiter, error_prop
 import filecmp
 
 

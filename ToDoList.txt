@@ -14,5 +14,6 @@ summary:
 week of June 19.
 
 ~~Look into add SPIN algorithm to the PeakFitter~~
-wrote SPIN algorithm but unsure if it's worth adding
+wrote SNIP algorithm but unsure if it's worth adding to PeakFitter
 jupyter notebook test environment here
+add the geff fit function to griffin
