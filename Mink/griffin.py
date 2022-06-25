@@ -13,14 +13,17 @@ class Fit:
     f: callable
 
 
-def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
-                charge_window=10, full=False, **kwargs):
+def PerformFits(Files: str, charge: np.array, spectra: np.array,
+                rough_coef: tuple[float], cut_off: float = 10,
+                charge_window: float = 10, full: bool = False,
+                **kwargs) -> tuple[np.array, list[Fit]]:
     '''performs fit across the specified peaks in the contained in the Files
     specified. LitEnFiles should have a header of one and use ',' as a
     delimiter. The charge and spectra should be given.
     rough coeff should be given as a tuple of polynomial coefficients in
-    order of smallest order coeff to largest order coeff. The smallest acceptable
-    peak can be set with cut_off, and the range of the fit is set with charge_window'''
+    order of smallest order coeff to largest order coeff.
+    The smallest acceptable peak can be set with cut_off,
+    and the size of the window fit is set with charge_window'''
     fits = []
     # use the rough calibration to convert to energy
     rough_fit = np.polynomial.Polynomial(rough_coef)
@@ -61,6 +64,7 @@ def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
             p0 = [maxes[0]-avg, bin_slice[indexes[0]], 2, 0, avg]
             # fit
             try:
+                # fix any negative sqrt()
                 sigma = np.nan_to_num(np.sqrt(spectra_slice), nan=1)
                 out = curve_fit(lin_gaussian, bin_slice, spectra_slice,
                                 p0=p0,
@@ -82,7 +86,7 @@ def PerformFits(Files, charge, spectra, rough_coef, cut_off=10,
     return np.array(results), fits
 
 
-def SNIP(array, iterations):
+def SNIP(array: np.array, iterations: int) -> np.array:
     '''estimates the background of gamma spectrum'''
     v = np.log(np.log(np.sqrt(array+1)+1)+1)
     next_v = np.zeros(len(v))
@@ -90,7 +94,7 @@ def SNIP(array, iterations):
     for M in range(iterations):
         for i in range(M, len(v)-M):
             next_v[i] = min(v[i], (v[i-M]+v[i+M])/2)
-        # update only the ones that have chagned
+        # update only the ones that have changed
         v[M:len(v)-M] = next_v[M:len(v)-M]
 
     Background = (np.exp(np.exp(v)-1)-1)**2-1
@@ -98,7 +102,7 @@ def SNIP(array, iterations):
 
 
 # function for fitting efficiency curve
-def eff_curve(energy, *pars):
+def eff_curve(energy: np.array, *pars: float) -> np.array:
     power = 0
     for n, par in enumerate(pars):
         power += par*np.log(energy/350)**n

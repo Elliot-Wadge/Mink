@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 
 
-def local_max(arr, N=2, strict=False):
+def local_max(arr: np.array, N: int = 2,
+              strict: bool = False) -> tuple[np.array, np.array]:
     '''find local maximums of an array where local is defined as M points on
     either side, if strict is true then it will follow this process exactly if
     strict is false it will also count local maxes that are at least
@@ -54,7 +55,7 @@ def local_max(arr, N=2, strict=False):
     return np.array(local_maxs), np.array(indexes)
 
 
-def dec_noise(sigma=0):
+def dec_noise(sigma: float = 0):
     '''decorator add gaussian noise to a function with
      standard deviation sigma'''
     def decorator(func):
@@ -66,7 +67,7 @@ def dec_noise(sigma=0):
     return decorator
 
 
-def noise(func, sigma=0):
+def noise(func: callable, sigma: float = 0) -> callable:
     '''add gaussian noise to func with standard deviation sigma'''
     def noisy_func(*args, **kwargs):
         modified = func(*args, **kwargs)
@@ -75,7 +76,8 @@ def noise(func, sigma=0):
     return noisy_func
 
 
-def error_prop(f, args, errors, ind_var=[None], **kwargs):
+def error_prop(f: callable, args: np.array, errors: np.array,
+               ind_var: np.array = [None], **kwargs) -> np.array:
     '''take function f, args, and errors in args and propegate the error using the
         method of calculus. Honestly not sure how much I trust this function. It
         works on simple functions at least'''
@@ -104,7 +106,7 @@ def error_prop(f, args, errors, ind_var=[None], **kwargs):
     return prop_arr
 
 
-def csv_to_df(files, *args, **kwargs):
+def csv_to_df(files: list[str], *args, **kwargs) -> pd.DataFrame:
     '''function to load multiple csv files into a dataframe'''
     iterable = hasattr(files, "__iter__")
     df_lst = []
@@ -117,17 +119,17 @@ def csv_to_df(files, *args, **kwargs):
     return df
 
 
-def gaussian(x, a, b, c):
+def gaussian(x: np.array, a, b, c) -> np.array:
     '''plain gaussian'''
     return a*np.exp(-(x-b)**2/(2*c**2))
 
 
-def lin_gaussian(x, a, b, c, d, e):
+def lin_gaussian(x: np.array, a, b, c, d, e) -> np.array:
     '''gaussian function with linear background'''
     return a*np.exp(-(x-b)**2/(2*c**2))+d*x+e
 
 
-def n_gaussian(x, *args, poly=0):
+def n_gaussian(x: np.array, *args, poly: int = 0) -> np.array:
     '''gaussian with n peaks specified using a1,b1,c1,a2,b2,c2... poly=n specifies
     the order of polynomial to add as background, the coefficients should be
     entered in ascending order after the gaussian arguments, if poly=1 then
@@ -144,7 +146,7 @@ def n_gaussian(x, *args, poly=0):
 
 
 def merge_delimiter(filename1: str, filename2: str, delimiter: str = ' ',
-                    new_delimiter=','):
+                    new_delimiter: str = ',') -> None:
     new_row = ''
     # open two files the one to read from filename1 and the new filename2
     with open(filename2, 'w') as f2:
