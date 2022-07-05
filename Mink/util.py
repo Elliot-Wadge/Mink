@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import sys
 
 
 def local_max(arr: np.array, N: int = 2,
@@ -79,8 +80,8 @@ def noise(func: callable, sigma: float = 0) -> callable:
 def error_prop(f: callable, args: np.array, errors: np.array,
                ind_var: np.array = [None], **kwargs) -> np.array:
     '''take function f, args, and errors in args and propegate the error using the
-        method of calculus. Honestly not sure how much I trust this function. It
-        works on simple functions at least'''
+        method of calculus. Honestly not sure how much I trust this function.
+        It works on simple functions at least'''
     errors = np.array(errors)
     # array for storing derivatives
     d_arr = np.ones(len(args))
@@ -173,3 +174,13 @@ def merge_delimiter(filename1: str, filename2: str, delimiter: str = ' ',
             new_row = new_row.replace(delimiter, new_delimiter)
             # write to the output file
             f2.write(new_row)
+
+
+def array_size(obj: object) -> float:
+    '''recursively get total size of a list or array'''
+    if hasattr(obj, "__iter__"):
+        size = sys.getsizeof(obj)
+        for item in obj:
+            size += array_size(item)
+    else:
+        return sys.getsizeof(obj)
