@@ -18,8 +18,10 @@ class TestLocalMax(unittest.TestCase):
         a linear slope'''
         x = np.linspace(0, 10, 20)
         maxes, index = local_max(x)
-        self.assertEqual(len(maxes), 0)
-        self.assertEqual(len(index), 0)
+        m_message = f"maxes found = {maxes}"
+        i_message = f"indexes foound = {index}"
+        self.assertEqual(len(maxes), 0, m_message)
+        self.assertEqual(len(index), 0, i_message)
 
     def test_lm_max(self):
         '''test the local max behaves properly when searching for the largest local
