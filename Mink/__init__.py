@@ -1,1 +1,2 @@
-from .util import local_max
+from .util import *
+import plotly_templates
