@@ -3,8 +3,8 @@ import pandas as pd
 import sys
 
 
-def local_max(arr: np.array, N: int = 2,
-              strict: bool = False) -> tuple[np.array, np.array]:
+def local_max(arr: np.ndarray, N: int = 2,
+              strict: bool = False) -> tuple[np.ndarray, np.ndarray]:
     '''find local maximums of an array where local is defined as M points on
     either side, if strict is true then it will follow this process exactly if
     strict is false it will also count local maxes that are at least
@@ -25,7 +25,7 @@ def local_max(arr: np.array, N: int = 2,
         # flag
         local_max = True
         for j in range(M):
-            try:
+            if i+j < len(arr):
                 # will make index error when your with M of the edges so except
                 # index error
                 if arr[i] < arr[i + j]:
@@ -33,18 +33,18 @@ def local_max(arr: np.array, N: int = 2,
                     iterate = j
                     break
 
-            except IndexError:
+            else:
                 if strict:
                     # reproduce old behaviour
                     local_max = False
                     break
                 # otherwise search in the other direction
-            try:
+            if i-j > 0:
                 if arr[i] < arr[i - j]:
                     local_max = False
                     break
 
-            except IndexError:
+            else:
                 if strict:
                     local_max = False
                     break
@@ -77,8 +77,8 @@ def noise(func: callable, sigma: float = 0) -> callable:
     return noisy_func
 
 
-def error_prop(f: callable, args: np.array, errors: np.array,
-               ind_var: np.array = [None], **kwargs) -> np.array:
+def error_prop(f: callable, args: np.ndarray, errors: np.ndarray,
+               ind_var: np.ndarray = [None], **kwargs) -> np.ndarray:
     '''take function f, args, and errors in args and propegate the error using the
         method of calculus. Honestly not sure how much I trust this function.
         It works on simple functions at least'''
@@ -120,17 +120,18 @@ def csv_to_df(files: list[str], *args, **kwargs) -> pd.DataFrame:
     return df
 
 
-def gaussian(x: np.array, a, b, c) -> np.array:
-    '''plain gaussian'''
+def gaussian(x: np.ndarray, a, b, c) -> np.ndarray:
+    '''plain gaussian, a*exp(-(x-b)^2 / (2*c^2))'''
     return a*np.exp(-(x-b)**2/(2*c**2))
 
 
-def lin_gaussian(x: np.array, a, b, c, d, e) -> np.array:
-    '''gaussian function with linear background'''
+def lin_gaussian(x: np.ndarray, a, b, c, d, e) -> np.ndarray:
+    '''gaussian function with linear background
+    a*exp(-(x-b)^2 / (2*c^2))+d*x+e'''
     return a*np.exp(-(x-b)**2/(2*c**2))+d*x+e
 
 
-def n_gaussian(x: np.array, *args, poly: int = 0) -> np.array:
+def n_gaussian(x: np.ndarray, *args, poly: int = 0) -> np.ndarray:
     '''gaussian with n peaks specified using a1,b1,c1,a2,b2,c2... poly=n specifies
     the order of polynomial to add as background, the coefficients should be
     entered in ascending order after the gaussian arguments, if poly=1 then
@@ -177,7 +178,7 @@ def merge_delimiter(filename1: str, filename2: str, delimiter: str = ' ',
 
 
 def array_size(obj: object) -> float:
-    '''recursively get total size of a list or array'''
+    '''recursively get total size of a list or array in bytes'''
     if hasattr(obj, "__iter__"):
         size = sys.getsizeof(obj)
         for item in obj:
