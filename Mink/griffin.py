@@ -7,16 +7,16 @@ from scipy.special import SpecialFunctionError
 
 @dataclass
 class Fit:
-    charge: np.array
-    spectra: np.array
-    pOpt: np.array
+    charge: np.ndarray
+    spectra: np.ndarray
+    pOpt: np.ndarray
     f: callable
 
 
-def PerformFits(Files: str, charge: np.array, spectra: np.array,
+def PerformFits(Files: str, charge: np.ndarray, spectra: np.ndarray,
                 rough_coef: tuple[float], cut_off: float = 10,
                 charge_window: float = 10, full: bool = False,
-                **kwargs) -> tuple[np.array, list[Fit]]:
+                **kwargs) -> tuple[np.ndarray, list[Fit]]:
     '''performs fit across the specified peaks in the contained in the Files
     specified. LitEnFiles should have a header of one and use ',' as a
     delimiter. The charge and spectra should be given.
@@ -86,7 +86,7 @@ def PerformFits(Files: str, charge: np.array, spectra: np.array,
     return np.array(results), fits
 
 
-def SNIP(array: np.array, iterations: int) -> np.array:
+def SNIP(array: np.ndarray, iterations: int) -> np.ndarray:
     '''estimates the background of gamma spectrum'''
     v = np.log(np.log(np.sqrt(array+1)+1)+1)
     next_v = np.zeros(len(v))
@@ -102,9 +102,9 @@ def SNIP(array: np.array, iterations: int) -> np.array:
 
 
 # function for fitting efficiency curve
-def eff_curve(energy: np.array, *pars: float) -> np.array:
+def eff_curve(energy: np.ndarray, *args: float) -> np.ndarray:
     power = 0
-    for n, par in enumerate(pars):
-        power += par*np.log(energy/350)**n
+    for n, par in enumerate(args):
+        power += args*np.log(energy/350)**n
     f = np.exp(power)
     return f

@@ -24,3 +24,4 @@ week of June 26.
 implement uproot?
 add normalization to the eff fit
 brainstorm other useful things
+add functions to generate subplots properly formatted
