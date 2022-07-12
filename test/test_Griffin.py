@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from Mink.griffin import PerformFits
+from Mink.griffin import PerformFits, eff_curve
 from Mink.util import n_gaussian
 import plotly.graph_objects as go
 import warnings
@@ -47,14 +47,14 @@ class TestFitter(unittest.TestCase):
                 warnings.warn(message)
                 missed += 1
         self.assertLess(missed, 5)
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=x, y=y, mode="lines"))
-        fig.update_layout(template="simple_white")
-        for fit in fits:
-            fig.add_trace(go.Scatter(x=fit.charge,
-                                     y=fit.f(fit.charge, *fit.pOpt),
-                                     mode="lines", line=dict(color='red')))
-        fig.show()
+        # fig = go.Figure()
+        # fig.add_trace(go.Scatter(x=x, y=y, mode="lines"))
+        # fig.update_layout(template="simple_white")
+        # for fit in fits:
+        #     fig.add_trace(go.Scatter(x=fit.charge,
+        #                              y=fit.f(fit.charge, *fit.pOpt),
+        #                              mode="lines", line=dict(color='red')))
+        # fig.show()
 
     @unittest.expectedFailure
     def test_impossible(self):
@@ -75,6 +75,18 @@ class TestFitter(unittest.TestCase):
                     break
             message = f"incorrectly fit a peak {fit.pOpt[1]}"
             self.assertTrue(result, message)
+
+
+class TestEffCurve(unittest.TestCase):
+    '''test efficiency curve runs properly'''
+    def test_run(self):
+        x = np.linspace(1, 2000, 1000)
+        pOpt = [-1.45739, -0.510657, -0.051826, 0.0674436, -0.0272428]
+        y = eff_curve(x, *pOpt)
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y))
+        fig.update_layout(template="simple_white")
+        fig.show()
 
 
 if __name__ == '__main__':
