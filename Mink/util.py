@@ -4,7 +4,7 @@ import sys
 
 
 def local_max(arr: np.ndarray, N: int = 2,
-              strict: bool = False) -> tuple[np.ndarray, np.ndarray]:
+              strict: bool = False) -> tuple:
     '''find local maximums of an array where local is defined as M points on
     either side, if strict is true then it will follow this process exactly if
     strict is false it will also count local maxes that are at least

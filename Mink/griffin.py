@@ -16,7 +16,7 @@ class Fit:
 def PerformFits(Files: str, charge: np.ndarray, spectra: np.ndarray,
                 rough_coef: tuple[float], cut_off: float = 10,
                 charge_window: float = 10, full: bool = False,
-                **kwargs) -> tuple[np.ndarray, list[Fit]]:
+                **kwargs) -> tuple:
     '''performs fit across the specified peaks in the contained in the Files
     specified. LitEnFiles should have a header of one and use ',' as a
     delimiter. The charge and spectra should be given.
