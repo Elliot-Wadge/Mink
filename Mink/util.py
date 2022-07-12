@@ -107,7 +107,7 @@ def error_prop(f: callable, args: np.ndarray, errors: np.ndarray,
     return prop_arr
 
 
-def csv_to_df(files: list[str], *args, **kwargs) -> pd.DataFrame:
+def csv_to_df(files: list, *args, **kwargs) -> pd.DataFrame:
     '''function to load multiple csv files into a dataframe'''
     iterable = hasattr(files, "__iter__")
     df_lst = []
