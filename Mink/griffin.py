@@ -105,6 +105,6 @@ def SNIP(array: np.ndarray, iterations: int) -> np.ndarray:
 def eff_curve(energy: np.ndarray, *args: float) -> np.ndarray:
     power = 0
     for n, par in enumerate(args):
-        power += args*np.log(energy/350)**n
+        power += par*np.log(energy/350)**n
     f = np.exp(power)
     return f
