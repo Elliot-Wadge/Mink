@@ -15,7 +15,8 @@ class TestFitResult(unittest.TestCase):
         x = np.linspace(0,10,200)
         y = 2*x + np.random.normal(scale=0.3, size=len(x))
         err = np.ones(len(x))*0.3
-        res = my_curve_fit(linear, x, y, sigma=err, absolute_sigma=True)
+        p0 = (1.5,0)
+        res = my_curve_fit(linear, x, y, p0=p0, sigma=err, absolute_sigma=True)
         
         self.assertTrue(res.f == linear)
         self.assertAlmostEqual(res.chisq, 1, delta=0.5)
@@ -23,6 +24,7 @@ class TestFitResult(unittest.TestCase):
         self.assertTrue(np.array_equal(res.y, y))
         self.assertTrue(np.array_equal(res.x, x))
         self.assertTrue(np.array_equal(res.yErr, err))
+        print(res)
         
     def test_Comparison(self):
         my_curve_fit = full_return(curve_fit)

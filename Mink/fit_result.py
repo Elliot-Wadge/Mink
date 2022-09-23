@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import curve_fit
+import copy
 
 def cmp_dec(comparison: callable) -> callable:
     def new_comparison(self, other):
@@ -20,6 +21,7 @@ class FitResult:
     yErr: np.ndarray = None
     norm_res: np.ndarray
     chisq: float = None
+    dof: int 
     
     def __init__(self, pOpt=None, pCov=None, x=None, y=None, f=None, sigma=None):
         self.pOpt = pOpt
@@ -28,6 +30,7 @@ class FitResult:
         self.x = x
         self.y = y
         self.f = f
+        self.dof = len(self.y) - len(self.pOpt)
         
         if sigma is not None:
             self.yErr = sigma
@@ -35,12 +38,16 @@ class FitResult:
             self.chisq = np.sum(self.norm_res**2)/(len(self.x)-len(self.pOpt))
             
     def __str__(self):
-        st = f"function = {self.f.__name__}\n"
-        st += 'fit results:\n'
+        st = f"function = {self.f.__name__}"
+        st += " {\n"
+        st += '\tfit results:\n'
         for i,par in enumerate(self.pOpt):
-            st += f'{par} +/- {self.pError[i]}\n'
+            st += f'\t\t{par} +/- {self.pError[i]}\n'
+        st += '\n'
         if self.chisq is not None:
-            st += f'reduced chisq = {self.chisq}'
+            st += f'\treduced chisq = {self.chisq}\n'
+        st += f"\tdof = {self.dof}"
+        st += "\n\t}"
         return st
     
     @cmp_dec
@@ -70,6 +77,7 @@ def full_return(f: callable) -> callable:
     '''function for decorating the scipy.optimize.curve_fit function to a return a 
     more useful and encapselated result'''
     def new_f(*args, **kwargs):
+        kwargs = copy.deepcopy(kwargs)
         # ensure that full output is off
         kwargs["full_output"] = False
         sigma = None
