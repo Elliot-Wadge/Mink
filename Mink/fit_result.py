@@ -79,7 +79,6 @@ def full_return(f: callable) -> callable:
     def new_f(*args, **kwargs):
         kwargs = copy.deepcopy(kwargs)
         # ensure that full output is off
-        kwargs["full_output"] = False
         sigma = None
         # call curve fit as normal
         pOpt, pCov = f(*args, **kwargs)
