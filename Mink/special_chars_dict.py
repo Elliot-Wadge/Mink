@@ -46,6 +46,12 @@ sc = dict([("lambda","\u03bb")],
           Chi="\u03a7",
           Psi="\u03a8",
           Omega="\u03a9",
+          angstrom="\u212b",
+          degree="\u00b0",
+          micro="\u00b5",
+          script_l="\u2113",
+          prime="\u2032",
+          pprime="\u2033"
           )
 
-# print(sc.items())
+print(sc.items())

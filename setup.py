@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name='Mink',
-    version='0.1.11',
+    version='0.1.1',
     author='Elliot Wadge',
     author_email='ewadge@sfu.ca',
     description='Package containing useful functions for scientific analysis',
