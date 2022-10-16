@@ -54,4 +54,6 @@ sc = dict([("lambda","\u03bb")],
           pprime="\u2033"
           )
 
-print(sc.items())
+
+if __name__ == "__main___":
+    print(sc.items())
