@@ -1,4 +1,14 @@
-sc = dict([("lambda","\u03bb")],
+class namespace_dict(dict):
+    def __getattr__(self, __name: str):
+        try:
+            return super().__getattr__(__name)
+
+        except AttributeError:
+            return self.__getitem__(__name)
+
+
+sc = namespace_dict([("lambda","\u03bb")],
+          pm="\u00b1",
           alpha="\u03b1",
           beta="\u03b2",
           gamma="\u03b3",
@@ -55,5 +65,7 @@ sc = dict([("lambda","\u03bb")],
           )
 
 
-if __name__ == "__main___":
+if __name__ == "__main__":
     print(sc.items())
+    print(sc.pm)
+    print(sc.zeta)
