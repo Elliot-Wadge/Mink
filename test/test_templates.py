@@ -12,6 +12,7 @@ class TemplateTester(unittest.TestCase):
         fig = go.Figure()
         fig.update_layout(template=science_template)
         fig.add_trace(go.Scatter(x=self.x, y=self.x))
+        fig.show()
 
 
 if __name__ == '__main__':

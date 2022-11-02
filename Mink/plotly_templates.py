@@ -17,6 +17,9 @@ for color in colors:
                                       hovertemplate="x = %{x}<br>y = %{y}"))
 
 science_template.data.scatter = scatter_lst
+science_template.data.scattergl = scattergl_lst
 science_template.layout = pio.templates["simple_white"].layout
 science_template.layout["margin"] = go.layout.Margin(autoexpand=True,
                                                      l=30, r=30, t=30, b=30)
+science_template.layout['width'] = 800
+science_template.layout['height'] = 500
