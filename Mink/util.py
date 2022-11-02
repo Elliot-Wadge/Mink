@@ -80,8 +80,7 @@ def noise(func: callable, sigma: float = 0) -> callable:
 def error_prop(f: callable, args: np.ndarray, errors: np.ndarray,
                ind_var: np.ndarray = [None], **kwargs) -> np.ndarray:
     '''take function f, args, and errors in args and propegate the error using the
-        method of calculus. Honestly not sure how much I trust this function.
-        It works on simple functions at least'''
+        method of calculus. Approximates the derivative with 1e-8 precision'''
     errors = np.array(errors)
     # array for storing derivatives
     d_arr = np.ones(len(args))
