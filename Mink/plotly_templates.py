@@ -23,3 +23,4 @@ science_template.layout["margin"] = go.layout.Margin(autoexpand=True,
                                                      l=30, r=30, t=30, b=30)
 science_template.layout['width'] = 800
 science_template.layout['height'] = 500
+science_template.layout['autosize'] = False
