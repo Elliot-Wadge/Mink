@@ -93,7 +93,7 @@ def error_prop(f: callable, args: np.ndarray, errors: np.ndarray,
 
             arg_space = np.linspace(arg-diff, arg+diff, 2)
             # reintroduce negative if it was removed
-            arg_space *= abs(arg)/arg
+            # arg_space *= abs(arg)/arg
             # call the function with x inserted in correct position
             if x is None:
                 y = f(*args[:i], arg_space, *args[i+1:], **kwargs)
