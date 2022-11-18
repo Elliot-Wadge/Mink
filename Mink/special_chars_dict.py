@@ -7,6 +7,19 @@ class namespace_dict(dict):
             return self.__getitem__(__name)
 
 
+def sup(x):
+    normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-=()"
+    super_s = "ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻᵃᵇᶜᵈᵉᶠᵍʰᶦʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾"
+    res = x.maketrans(''.join(normal), ''.join(super_s))
+    return x.translate(res)
+
+def sub(x):
+    normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-=()"
+    sub_s = "ₐ₈CDₑբGₕᵢⱼₖₗₘₙₒₚQᵣₛₜᵤᵥwₓᵧZₐ♭꜀ᑯₑբ₉ₕᵢⱼₖₗₘₙₒₚ૧ᵣₛₜᵤᵥwₓᵧ₂₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎"
+    res = x.maketrans(''.join(normal), ''.join(sub_s))
+    return x.translate(res)
+    
+    
 sc = namespace_dict([("lambda","\u03bb")],
           pm="\u00b1",
           alpha="\u03b1",
@@ -64,8 +77,11 @@ sc = namespace_dict([("lambda","\u03bb")],
           pprime="\u2033"
           )
 
+sc.sub = sub
+sc.sup = sup
 
 if __name__ == "__main__":
     print(sc.items())
     print(sc.pm)
     print(sc.zeta)
+    print(f"{sc.nu + sc.sup('2') + sc.sub('1')}")
