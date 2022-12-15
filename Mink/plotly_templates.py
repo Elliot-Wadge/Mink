@@ -24,3 +24,5 @@ science_template.layout["margin"] = go.layout.Margin(autoexpand=True,
 science_template.layout['width'] = 800
 science_template.layout['height'] = 500
 science_template.layout['autosize'] = False
+science_template.layout["font_size"] = 19
+science_template.layout['font_family'] = 'Times New Roman'
