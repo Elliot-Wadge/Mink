@@ -52,3 +52,4 @@ dc_template.layout['height'] = 500
 dc_template.layout['autosize'] = False
 dc_template.layout["font_size"] = 22
 dc_template.layout['font_family'] = 'Times New Roman'
+dc_template.layout["legend_x"] = 0.01
