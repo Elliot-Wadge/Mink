@@ -35,7 +35,7 @@ class FitResult:
         if sigma is not None:
             self.yErr = sigma
             self.norm_res = (self.y - self.f(self.x, *self.pOpt))/sigma
-            self.chisq = np.sum(self.norm_res**2)/(len(self.x)-len(self.pOpt))
+            self.chisq = np.sum(self.norm_res**2)/(len(self.y)-len(self.pOpt))
             
     def __str__(self):
         st = f"function = {self.f.__name__}"
