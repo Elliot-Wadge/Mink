@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import sys
 
 
@@ -104,19 +103,6 @@ def error_prop(f: callable, args: np.ndarray, errors: np.ndarray,
         prop_err = np.sqrt(np.sum((d_arr*errors)**2))
         prop_arr.append(prop_err)
     return prop_arr
-
-
-def csv_to_df(files: list, *args, **kwargs) -> pd.DataFrame:
-    '''function to load multiple csv files into a dataframe'''
-    iterable = hasattr(files, "__iter__")
-    df_lst = []
-    if iterable and not isinstance(files, str):
-        for file in files:
-            df_lst.append(pd.read_csv(file, *args, **kwargs))
-        df = pd.concat(df_lst)
-    else:
-        df = pd.read_csv(files, *args, **kwargs)
-    return df
 
 
 def gaussian(x: np.ndarray, a, b, c) -> np.ndarray:
