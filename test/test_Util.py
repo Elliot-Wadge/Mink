@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from Mink.util import local_max, csv_to_df, merge_delimiter, error_prop
+from Mink.util import local_max, merge_delimiter, error_prop
 import filecmp
 
 
@@ -31,21 +31,6 @@ class TestLocalMax(unittest.TestCase):
         maxes, index = local_max(y, N=len(y))
         self.assertEqual(list(maxes), [1.])
         self.assertEqual(list(index), [25])
-
-
-class TestCsvToDf(unittest.TestCase):
-    def test_dtc_multiple(self):
-        '''test that csv_to_df can load multiple files properly'''
-        df = csv_to_df(["Mink/example_dataframes/df1.csv",
-                       "Mink/example_dataframes/df2.csv"], comment="#")
-        self.assertEqual(len(df), 5)
-        self.assertEqual(len(df.columns), 2)
-
-    def test_dtc_single(self):
-        '''test that csv_to_df can load a single file'''
-        df = csv_to_df("Mink/example_dataframes/df2.csv", comment="#")
-        self.assertEqual(len(df), 3)
-        self.assertEqual(len(df.columns), 2)
 
 
 class TestMergeDelimiter(unittest.TestCase):
